@@ -1,35 +1,7 @@
 import json, urllib, urllib2
+from authAPI import authRequest
 
-consumerKey = "A09ADIWm5ObRfrzwlJTQ"
-consumerSecret = "JlFOVERuOvmX6tHOl9SKyVjwAiCKz0Kn7hXN4bnSnrk"
-
-reqBearerTokenURL = "https://api.twitter.com/oauth2/token"
 searchURL = "https://api.twitter.com/1.1/search/tweets.json"
-
-# returns access_token
-def authRequest():
-    import base64
-
-    bearerToken = consumerKey+":"+consumerSecret
-    b64BearerToken = base64.b64encode(bearerToken)
-
-    data = {}
-    headers = {}
-    headers['Authorization'] = 'Basic '+b64BearerToken
-    headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF8'
-
-    data['grant_type'] = 'client_credentials'
-    data = urllib.urlencode(data)
-
-    req = urllib2.Request(reqBearerTokenURL, data, headers)
-    try: 
-        response = urllib2.urlopen(req)
-    except urllib2.HTTPError as e:
-        print e
-        return
-
-    jsonResp = json.loads(response.read())
-    return jsonResp.get('access_token')
 
 # returns JSON of search results
 def processSearch(*args, **kwargs):
